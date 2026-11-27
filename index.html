@@ -285,22 +285,49 @@ S.forEach(s=>{
 });
 
 // it[id] = [box, due, seen, right, lastCorrect]
-let st = {v:2,u:0,it:{},rd:{},pre:{},ex:"",mk:[],ls:{}};
+const fresh=()=>({v:2,u:0,it:{},rd:{},pre:{},ex:"",mk:[],ls:{},run:null});
+let st = fresh();
 let db=null, saveT=null, view="home", run=null, timerI=null, lesson=null;
 const $v=document.getElementById("view"), $st=document.getElementById("status");
 
 try{const j=localStorage.getItem("pc1704"); if(j){const o=JSON.parse(j); if(o&&o.v===2) st=Object.assign(st,o);}}catch(e){}
 
+// Progress is kept on this device and online under a personal key carried in the link (?k=...),
+// so the same link restores it on any phone or computer, even if the browser clears its storage.
+const KEYRE=/^[A-Za-z0-9_-]{8,48}$/;
+let SK=null;
+try{ const q=new URLSearchParams(location.search).get("k"); SK=(q&&KEYRE.test(q))?q:localStorage.getItem("ucKey"); }catch(e){}
+if(!SK||!KEYRE.test(SK)){ const a=new Uint8Array(12); crypto.getRandomValues(a); SK=Array.from(a,b=>"abcdefghijkmnpqrstuvwxyz23456789"[b%32]).join(""); }
+try{ localStorage.setItem("ucKey",SK); }catch(e){}
+try{ if(new URLSearchParams(location.search).get("k")!==SK) history.replaceState(null,"",location.pathname+"?k="+SK+location.hash); }catch(e){}
+document.querySelectorAll("nav.switch a").forEach(a=>{ a.href=a.getAttribute("href").split("?")[0]+"?k="+SK; });
+const API=(location.hostname.endsWith("github.io")?"https://utah-exam-course.vercel.app":"")+"/api/progress?c=pc&k="+SK;
+let pushT=null, firstDirty=0, online=false;
+
 function save(){
   st.u=Date.now();
   try{localStorage.setItem("pc1704",JSON.stringify(st));}catch(e){}
-  if(!db){$st.textContent="Progress saved in this browser only";return;}
-  clearTimeout(saveT); $st.textContent="Saving…";
-  saveT=setTimeout(async()=>{
-    try{await db.doc("course/state").set(JSON.parse(JSON.stringify(st)));$st.textContent="Progress saved";}
-    catch(e){$st.textContent="Couldn't save to your account. Progress is kept in this browser for now.";}
-  },800);
+  if(!firstDirty) firstDirty=Date.now();
+  clearTimeout(pushT);
+  pushT=setTimeout(push, Math.max(0,Math.min(30e3, firstDirty+120e3-Date.now())));
 }
+async function push(keep){
+  clearTimeout(pushT); pushT=null; if(!firstDirty) return; firstDirty=0;
+  try{
+    const r=await fetch(API,{method:"POST",headers:{"Content-Type":"text/plain"},body:JSON.stringify(st),keepalive:!!keep});
+    if(r.status===409) adopt(await r.json());
+    else if(!r.ok) throw 0;
+    online=true; $st.textContent="Progress saved online. This page's link is yours: bookmark it or add it to your home screen.";
+  }catch(e){ if(!firstDirty) firstDirty=Date.now(); $st.textContent="Saved on this device. It will go online when you reconnect."; }
+}
+function adopt(d){
+  if(!d||d.v!==2||(d.u||0)<=(st.u||0)) return false;
+  st=Object.assign(fresh(),d); try{localStorage.setItem("pc1704",JSON.stringify(st));}catch(e){}
+  if(view==="home") renderHome(); return true;
+}
+document.addEventListener("visibilitychange",()=>{ if(document.visibilityState==="hidden"&&firstDirty) push(true); });
+window.addEventListener("pagehide",()=>{ if(firstDirty) push(true); });
+window.addEventListener("online",()=>{ if(firstDirty) push(); });
 
 function examCap(){ if(!st.ex) return 0; const t=new Date(st.ex+"T00:00").getTime()-6*3600e3; return t>Date.now()?t:0; }
 function daysLeft(){ if(!st.ex) return null; const d=new Date(); d.setHours(0,0,0,0); return Math.round((new Date(st.ex+"T00:00")-d)/DAY); }
@@ -389,8 +416,9 @@ function renderHome(){
   const tried=S.reduce((a,s)=>a+secEst(s).att,0), allQ=S.reduce((a,s)=>a+s.qids.length,0);
   const totQ=S.reduce((a,s)=>a+s.qids.length,0), totC=S.reduce((a,s)=>a+s.cids.length,0);
   document.getElementById("facts").innerHTML=`<span>${S.length} outline sections</span><span>${totQ} practice questions</span><span>${totC} flashcards</span><span>70% to pass</span>`;
-  const mk=st.mk.slice(-6);
+  const mk=st.mk.slice(-6), sr=savedRun();
   $v.innerHTML=`
+  ${sr?`<div class="cta" style="margin:0 0 1.25rem"><button class="act primary" id="goResume">Resume ${esc(sr.title)} · question ${sr.i+1} of ${sr.ids.length}</button><button class="act" id="dropResume">Discard it</button></div>`:""}
   <section class="panel" aria-label="Readiness">
     <div>
       <span class="lbl">Projected score</span>
@@ -417,6 +445,7 @@ function renderHome(){
   <h2 class="hsec">The ${S.length} outline sections</h2>
   <div class="mods">${S.map(s=>row(s,nx)).join("")}</div>
   ${METHOD}${PLAN}${AUDIO}`;
+  on("goResume",resumeRun); on("dropResume",()=>{endRun();renderHome();});
   on("goReview",startReview); on("goNext",()=>openSec(nx.n)); on("goUtah",startUtah);
   on("goHalf",()=>startMock(.5)); on("goFull",()=>startMock(1));
   document.getElementById("examDate").addEventListener("change",e=>{st.ex=e.target.value||"";save();renderHome();});
@@ -578,6 +607,7 @@ function renderRun(){
   const r=run;
   if(r.mode==="mock" && r.finished) return mockResults();
   if(r.i>=r.ids.length) return r.mode==="mock"?(r.finished=true,mockResults()):runResults();
+  keepRun();
   const id=r.ids[r.i], I=ITEMS[id], mock=r.mode==="mock";
   const head=`<button class="crumb" id="quit">${mock?(r.qc?"Leave and discard answers?":"← Leave exam"):"← Stop"}</button>
   <div class="qhead"><span class="qpos">${esc(r.title)}${mock?"":` · ${I.s.n}.0 ${esc(I.s.t)}`}</span>
@@ -611,7 +641,7 @@ function renderRun(){
     </div>`;
   }
   $v.innerHTML=head+body;
-  on("quit",()=>{ if(mock&&!r.qc){r.qc=1;renderRun();return;} stopTimer(); run=null; renderHome(); });
+  on("quit",()=>{ if(mock&&!r.qc){r.qc=1;renderRun();return;} stopTimer(); run=null; endRun(); renderHome(); });
   on("reveal",()=>{r.shown=true;renderRun();});
   on("next",nextItem);
   on("prev",()=>go(-1)); on("fwd",()=>go(1));
@@ -619,6 +649,22 @@ function renderRun(){
   $v.querySelectorAll("[data-c]").forEach(b=>b.addEventListener("click",()=>pick(+b.dataset.c)));
   $v.querySelectorAll("[data-g]").forEach(b=>b.addEventListener("click",()=>gradeCard(+b.dataset.g)));
   if(mock) tick();
+}
+function keepRun(){
+  const r=run, i=(r.mode!=="mock"&&r.picked!==null)?r.i+1:r.i;
+  st.run={mode:r.mode,ids:r.ids.slice(),i,title:r.title,sn:r.sn,ans:r.ans?r.ans.slice():undefined,end:r.end,mins:r.mins,req:Object.assign({},r.req),ok:r.ok,tried:r.tried,graded:r.graded,miss:r.miss.slice()};
+  save();
+}
+function endRun(){ if(st.run){ st.run=null; save(); } }
+function savedRun(){
+  const x=st.run; if(!x||!Array.isArray(x.ids)||x.i>=x.ids.length||!x.ids.every(id=>ITEMS[id])) return null; return x;
+}
+function resumeRun(){
+  const x=savedRun(); if(!x) return;
+  run=Object.assign({picked:null,shown:false,ok:0,tried:0,graded:0,miss:[],req:{}},JSON.parse(JSON.stringify(x)));
+  view="run"; stopTimer();
+  if(run.mode==="mock"){ if(Date.now()>=run.end) run.finished=true; else timerI=setInterval(tick,1000); }
+  window.scrollTo(0,0); renderRun();
 }
 function finishLabel(){ const left=run.ans.filter(a=>a===null).length; return run.fc&&left?`Finish with ${left} unanswered`:"Finish exam"; }
 function go(d){ const r=run; r.i=Math.max(0,Math.min(r.ids.length-1,r.i+d)); r.qc=0; window.scrollTo(0,0); renderRun(); }
@@ -645,6 +691,7 @@ function missList(miss,title){
     <p class="ans">${a!==null&&a!==undefined?`You chose <s>${LTR[a]}. ${esc(q.c[a])}</s><br>`:"Not answered.<br>"}Answer <b>${LTR[q.a]}. ${esc(q.c[q.a])}</b></p><p class="ans">${esc(q.w)}</p></details>`;}).join("")}</div>`;
 }
 function runResults(){
+  endRun();
   const r=run, s=S.find(x=>x.n===r.sn), pct=r.tried?Math.round(r.ok/r.tried*100):null;
   if(r.mode==="pretest"){ st.pre[r.sn]=1; save(); }
   if(r.mode==="practice"){ st.rd[r.sn]=1; intro(s.cids); save(); }
@@ -682,7 +729,7 @@ function mockResults(){
     r.ids.forEach((id,i)=>{const I=ITEMS[id], a=r.ans[i], k=I.s.n; by[k]=by[k]||[0,0]; by[k][1]++;
       if(a===I.it.a){ok++;by[k][0]++;grade(id,2);} else {miss.push([id,a]);grade(id,0);}});
     const p=Math.round(ok/r.ids.length*100);
-    st.mk.push({t:Date.now(),n:r.ids.length,p,by}); if(st.mk.length>20) st.mk.shift(); save();
+    st.mk.push({t:Date.now(),n:r.ids.length,p,by}); if(st.mk.length>20) st.mk.shift(); st.run=null; save();
     r.res={ok,p,by,miss};
   }
   const {ok,p,by,miss}=r.res;
@@ -746,17 +793,11 @@ renderHome();
 
 (async()=>{
   try{
-    if(typeof claude==="undefined"||!claude.use){$st.textContent="Progress saved in this browser only";return;}
-    db=await claude.use("db");
-    if(!db){$st.textContent="Progress saved in this browser only";return;}
-    const snap=await db.doc("course/state").get();
-    if(snap.exists){
-      const d=snap.data();
-      if(d&&d.v===2&&(d.u||0)>(st.u||0)){ st=Object.assign({v:2,u:0,it:{},rd:{},pre:{},ex:"",mk:[],ls:{}},JSON.parse(JSON.stringify(d))); if(view==="home") renderHome(); }
-      else if((st.u||0)>(d&&d.u||0)) save();
-    } else if(st.u) save();
-    $st.textContent="Progress saves to your account automatically";
-  }catch(e){ $st.textContent="Progress saved in this browser only"; }
+    const r=await fetch(API,{cache:"no-store"}); if(!r.ok) throw 0;
+    const d=await r.json();
+    if(!adopt(d) && (st.u||0)>((d&&d.u)||0)){ firstDirty=firstDirty||Date.now(); push(); }
+    online=true; $st.textContent="Progress saved online. This page's link is yours: bookmark it or add it to your home screen.";
+  }catch(e){ $st.textContent="Offline right now. Progress is saved on this device and goes online when you reconnect."; }
 })();
 </script>
 
