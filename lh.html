@@ -143,6 +143,14 @@
   .check{margin:2rem 0 0;padding:1.25rem 1.25rem 1.1rem;border:1px solid var(--rule);border-radius:12px;background:var(--surface)}
   .check .ck-t{font-size:var(--step--1);font-weight:700;color:var(--hivis);margin:0 0 .4rem}
   .check .qtext{font-size:var(--step-1)}
+  .qtoggle{display:flex;align-items:center;gap:.4rem;white-space:nowrap;cursor:pointer;color:var(--ink)}
+  .qtoggle input{width:1.05rem;height:1.05rem;accent-color:var(--hivis)}
+  .skipnote{margin:1rem 0 0;font-size:var(--step-0);color:var(--slate)}
+  .linkbtn{background:none;border:0;padding:0;font:inherit;color:var(--hivis);text-decoration:underline;cursor:pointer}
+  details.notes{margin-top:1rem;border-top:1px solid var(--rule-soft);padding-top:.8rem}
+  details.notes>summary{cursor:pointer;font-weight:600;color:var(--hivis);font-size:var(--step-0)}
+  details.notes .teach{margin-top:.75rem}
+  details.notes table{display:block;overflow-x:auto}
 
   .vids{margin:2rem 0 0;border-top:1px solid var(--rule);padding-top:1.25rem}
   .vids h3{margin-top:0;font-size:var(--step-1)}
@@ -495,6 +503,17 @@ function chunks(s){
   });
   return s._ch=out;
 }
+function partFor(id){
+  const I=ITEMS[id]; if(!I||I.type!=="q") return null;
+  const ch=chunks(I.s), o=String(I.it.o||"").trim(), same=ch.filter(c=>c.num===o);
+  if(!same.length) return null;
+  const own=same.find(c=>c.qid===id); if(own) return own;
+  const words=t=>new Set(t.toLowerCase().replace(/<[^>]+>/g," ").match(/[a-z0-9]{4,}/g)||[]);
+  const qw=words(I.it.q+" "+I.it.c[I.it.a]+" "+I.it.w);
+  let best=same[0], bs=-1; same.forEach(c=>{ const b=words(c.html); let n=0; qw.forEach(w=>{ if(b.has(w)) n++; }); if(n>bs){bs=n;best=c;} });
+  return best;
+}
+function notesFor(id){ const c=partFor(id); return c?`<details class="notes"><summary>Show the notes for this</summary><div class="teach">${c.html}</div></details>`:""; }
 function lessonDone(s){ return (st.ls[s.n]||0)>=chunks(s).length; }
 
 function openSec(n){
@@ -546,17 +565,22 @@ function openNotes(n){
 }
 
 /* ---------- lesson: one part per screen, then a check question ---------- */
-function openLesson(n,i){ lesson={n,i:i||0,picked:null}; view="lesson"; stopTimer(); renderLesson(); window.scrollTo(0,0); }
+function openLesson(n,i){ lesson={n,i:i||0,picked:null,read:false}; view="lesson"; stopTimer(); renderLesson(); window.scrollTo(0,0); }
 function renderLesson(){
   const L=lesson, s=S.find(x=>x.n===L.n), ch=chunks(s), c=ch[L.i];
   const q=c.qid?ITEMS[c.qid].it:null, done=L.picked!==null, ok=done&&q&&L.picked===q.a, last=L.i+1>=ch.length;
+  // Answer-first: the question comes before the text. Get it right and the part is done; miss it and the text opens.
+  const quick=st.quick!==false&&!!q, showText=!quick||L.read||(done&&!ok);
   $v.innerHTML=`<button class="crumb" id="back">← ${s.n}.0 ${esc(s.t)}</button>
-  <div class="lprog"><span>Part ${L.i+1} of ${ch.length}</span><div class="lbar"><span style="width:${(L.i+1)/ch.length*100}%"></span></div></div>
-  <article class="teach page">${c.html}</article>
-  ${q?`<section class="check" aria-label="Check yourself"><p class="ck-t">Check yourself</p><p class="qtext">${esc(q.q)}</p>
+  <div class="lprog"><span>Part ${L.i+1} of ${ch.length}</span><div class="lbar"><span style="width:${(L.i+1)/ch.length*100}%"></span></div>
+    <label class="qtoggle"><input type="checkbox" id="quickT" ${st.quick!==false?"checked":""}> Answer first</label></div>
+  ${showText?`<article class="teach page">${c.html}</article>`:`<div class="teach page"><h3>${esc(c.title)}</h3></div>`}
+  ${q?`<section class="check" aria-label="Check yourself"><p class="ck-t">${quick&&!done&&!L.read?"Answer first. Get it right and you can skip this part.":"Check yourself"}</p><p class="qtext">${esc(q.q)}</p>
     <div class="choices">${q.c.map((x,i)=>{let cls="choice"; if(done&&i===q.a) cls+=" right"; else if(done&&i===L.picked) cls+=" wrong";
       return `<button class="${cls}" data-c="${i}" ${done?"disabled":""}><span class="ltr">${LTR[i]}</span><span>${esc(x)}</span></button>`;}).join("")}</div>
-    ${done?`<div class="why ${ok?"right":"wrong"}"><span class="wl">${ok?"Correct":"Answer: "+LTR[q.a]}${q.ut?`<span class="tag">Utah</span>`:""}</span>${esc(q.w)}</div>`:`<p class="keys">Apply what you just read. Keys 1–4.</p>`}
+    ${done?`<div class="why ${ok?"right":"wrong"}"><span class="wl">${ok?"Correct":"Answer: "+LTR[q.a]}${q.ut?`<span class="tag">Utah</span>`:""}</span>${esc(q.w)}</div>`:`<p class="keys">${quick&&!L.read?"Not sure? Guess anyway. A miss opens the notes.":"Apply what you just read."} Keys 1–4.</p>`}
+    ${quick&&done&&ok&&!L.read?`<p class="skipnote">You know this part, so you can move on. <button class="linkbtn" id="lread">Read it anyway</button></p>`:""}
+    ${quick&&!done&&!L.read?`<p class="skipnote"><button class="linkbtn" id="lread">Read the part first</button></p>`:""}
   </section>`:""}
   <div class="navrow">
     <button class="act" id="lprev" ${L.i?"":"disabled"}>Previous</button>
@@ -565,6 +589,8 @@ function renderLesson(){
   wrapTables();
   on("back",()=>openSec(s.n));
   on("lprev",()=>lessonGo(-1)); on("lnext",()=>lessonGo(1));
+  on("lread",()=>{ L.read=true; renderLesson(); });
+  const qt=document.getElementById("quickT"); if(qt) qt.addEventListener("change",()=>{ st.quick=qt.checked; save(); renderLesson(); });
   $v.querySelectorAll("[data-c]").forEach(b=>b.addEventListener("click",()=>lessonPick(+b.dataset.c)));
 }
 function lessonPick(i){
@@ -574,7 +600,7 @@ function lessonPick(i){
 function lessonGo(d){
   const L=lesson, s=S.find(x=>x.n===L.n), ch=chunks(s);
   if(d>0){ st.ls[s.n]=Math.max(st.ls[s.n]||0,L.i+1); save(); if(L.i+1>=ch.length) return lessonEnd(s); }
-  L.i=Math.max(0,Math.min(ch.length-1,L.i+d)); L.picked=null; renderLesson(); window.scrollTo(0,0);
+  L.i=Math.max(0,Math.min(ch.length-1,L.i+d)); L.picked=null; L.read=false; renderLesson(); window.scrollTo(0,0);
 }
 function lessonEnd(s){
   view="sec"; lesson=null;
@@ -634,7 +660,7 @@ function renderRun(){
       else if(done&&i===q.a) cls+=" right"; else if(done&&i===r.picked) cls+=" wrong";
       return `<button class="${cls}" data-c="${i}" ${done?"disabled":""}><span class="ltr">${LTR[i]}</span><span>${esc(c)}</span></button>`;
     }).join("")}</div>
-    ${done?`<div class="why ${ok?"right":"wrong"}"><span class="wl">${ok?"Correct":"Answer: "+LTR[q.a]}${q.ut?`<span class="tag">Utah</span>`:""}</span>${esc(q.w)}</div>
+    ${done?`<div class="why ${ok?"right":"wrong"}"><span class="wl">${ok?"Correct":"Answer: "+LTR[q.a]}${q.ut?`<span class="tag">Utah</span>`:""}</span>${esc(q.w)}${ok?"":notesFor(id)}</div>
       <div class="cta"><button class="act primary" id="next">${r.i+1<r.ids.length?"Next":"See results"}</button></div>`:""}
     ${mock?`<div class="navrow">
       <button class="act" id="prev" ${r.i?"":"disabled"}>Previous</button>
@@ -692,7 +718,7 @@ function nextItem(){ run.i++; run.picked=null; run.shown=false; window.scrollTo(
 function missList(miss,title){
   if(!miss.length) return "";
   return `<div class="misses"><h3>${title}</h3>${miss.map(([id,a])=>{const q=ITEMS[id].it;return `<details><summary>${esc(q.q)}</summary>
-    <p class="ans">${a!==null&&a!==undefined?`You chose <s>${LTR[a]}. ${esc(q.c[a])}</s><br>`:"Not answered.<br>"}Answer <b>${LTR[q.a]}. ${esc(q.c[q.a])}</b></p><p class="ans">${esc(q.w)}</p></details>`;}).join("")}</div>`;
+    <p class="ans">${a!==null&&a!==undefined?`You chose <s>${LTR[a]}. ${esc(q.c[a])}</s><br>`:"Not answered.<br>"}Answer <b>${LTR[q.a]}. ${esc(q.c[q.a])}</b></p><p class="ans">${esc(q.w)}</p>${notesFor(id)}</details>`;}).join("")}</div>`;
 }
 function runResults(){
   endRun();
