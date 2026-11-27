@@ -103,37 +103,63 @@ SECTIONS.push({
 <div class="example"><p class="ex-t">Example</p><p>Mei is an independent agent with 600 clients spread across five insurers. Her friend Paul is a captive agent for one insurer, with 600 clients of his own. Both decide to leave and start new agencies.</p><p class="ex-a"><strong>How it applies:</strong> Mei owns her expirations. So she can take her 600 clients' renewal list and move their business to other insurers. Paul's expirations belong to his insurer. He leaves without the right to that client list.</p></div>
 <div class="keybox"><p><span class="kl">Exam trap</span>The test may say the insurer owns the expirations in an independent agency. In that system, the agent owns them.</p></div>
 
-<h3>2.3 Producers: the agency relationship</h3>
-<p>In law, an <em class="term">agent</em> acts for someone else, called the <em class="term">principal</em>. The <strong>insurer is the principal</strong> and the producer is its agent.</p>
-<p>Sometimes the agent acts within the scope of its authority. Then the agent's acts, statements and knowledge legally belong to the insurer. <strong>Notice to the agent is notice to the insurer.</strong></p>
-<p>The <strong>agency contract</strong> sets up the relationship between producer and insurer. A <em class="term">broker</em>, by contrast, represents the insured.</p>
-<p>The producer is a <strong>fiduciary</strong>, a person trusted with others' money. Premiums it collects are held in trust. They are never mixed with personal funds. They are passed on promptly.</p>
-<div class="example"><p class="ex-t">Example</p><p>On May 2, Felipe calls his producer Ashley. He reports that he has added a home daycare. Ashley forgets to pass it on to the insurer. In July a child is hurt. The insurer says it never knew about the daycare.</p><p class="ex-a"><strong>How it applies:</strong> Ashley is the insurer's agent, and taking that call was within her authority. Notice to the agent is notice to the insurer, so the insurer legally knew on May 2. It can't rely on "we never knew." Ashley may face her own trouble with the insurer for the slip.</p></div>
-<div class="keybox"><p><span class="kl">Exam trap</span>The test may say the producer represents the insured. The producer is the insurer's agent. A broker is the one who represents the insured.</p></div>
-
-<h3>2.3 Producers: types of authority</h3>
-<p>A producer can bind the insurer only within its authority. <em class="term">Authority</em> means the power to act for the insurer. It comes in three types.</p>
-<table class="tbl"><thead><tr><th>Authority</th><th>Source</th><th>Example</th></tr></thead><tbody>
-<tr><td><em class="term">Express</em></td><td>Granted in writing or out loud in the agency contract</td><td>"You may bind property coverage up to $1 million"</td></tr>
-<tr><td><em class="term">Implied</em></td><td>Not stated, but reasonably necessary to carry out the express authority</td><td>Collecting the first premium, delivering the policy</td></tr>
-<tr><td><em class="term">Apparent</em></td><td>The <strong>insurer's own conduct</strong> leads a reasonable third party to believe the agent has authority</td><td>A terminated agent still holding the insurer's binders and letterhead</td></tr>
-</tbody></table>
-<div class="keybox"><p><span class="kl">Memory hook</span><strong>E</strong>xpress = exactly written. <strong>I</strong>mplied = inferred from the job. <strong>A</strong>pparent = how it appears to the public. Apparent authority binds the insurer because the insurer created the appearance.</p></div>
-<div class="example"><p class="ex-t">Example</p><p>Victor's contract lets him bind property coverage up to $1 million. He binds a $750,000 shop and collects the first premium. The insurer then fires him but never takes back its binders. A week later he binds a restaurant for a customer who has no idea he was let go.</p><p class="ex-a"><strong>How it applies:</strong> Binding the $750,000 shop was express authority. It is under the $1 million written limit. Collecting the premium was implied authority. The restaurant binder used apparent authority. The insurer left Victor holding its binders, so it is bound to the restaurant.</p></div>
-<div class="keybox"><p><span class="kl">Exam trap</span>The test may say apparent authority comes from what the agent says or does. It comes from the insurer's own conduct.</p></div>
-
-<h3>2.3 Producers: duties to the applicant and insured</h3>
-<p>A producer owes duties to the people it serves, not just to the insurer.</p>
+<h3>2.3 Producers: the insurer is the principal</h3>
+<p>In law, an <em class="term">agent</em> acts for someone else. That someone is the <em class="term">principal</em>. In insurance, the <strong>insurer is the principal</strong> and the producer is its agent.</p>
+<p>A written <strong>agency contract</strong> (also called the producer agreement) sets up the relationship. It says which lines the producer may sell, how much coverage it may bind, what commission it earns, how it must handle premiums, and how either side can end the deal.</p>
+<p>When the producer acts within its authority, the law treats the producer and the insurer as one. Three rules follow:</p>
 <ul>
-<li>Use reasonable care and skill.</li>
-<li>Explain coverage accurately.</li>
-<li>Submit applications completely and promptly.</li>
-<li>Deliver the policy.</li>
-<li>Handle premiums as a fiduciary.</li>
+<li><strong>The insurer is responsible for the producer's acts.</strong> That includes the producer's mistakes.</li>
+<li><strong>What the agent knows, the insurer knows.</strong> A fact the applicant tells the agent counts as told to the insurer, even if the agent never writes it down.</li>
+<li><strong>A premium paid to the agent is paid to the insurer.</strong> If the agent never forwards it, the policy is still paid for.</li>
 </ul>
-<p>A producer who fails at these faces <em class="term">errors-and-omissions liability</em>. That means being sued for professional mistakes, like a doctor sued for malpractice.</p>
-<div class="example"><p class="ex-t">Example</p><p>Brooke asks her producer Sam for coverage on her new boat. Sam takes the application and $600 premium, then leaves it in a desk drawer for three weeks. The boat sinks in week two, and no policy was ever issued.</p><p class="ex-a"><strong>How it applies:</strong> Sam failed to submit the application promptly and to handle the premium properly. Brooke can bring an errors-and-omissions claim against Sam for the loss she would have been paid. This is why producers carry their own errors-and-omissions insurance.</p></div>
-<div class="keybox"><p><span class="kl">Exam trap</span>The test may say a producer owes duties only to the insurer. The producer also owes care and skill to the applicant and insured.</p></div>
+<p>The insured is not punished for the agent's error. The insurer pays the claim, then can go after its own agent for the loss.</p>
+<table class="tbl"><thead><tr><th>Who</th><th>Represents</th></tr></thead><tbody>
+<tr><td>Agent</td><td>The insurer</td></tr>
+<tr><td>Broker</td><td>The insured (the buyer)</td></tr>
+</tbody></table>
+<div class="example"><p class="ex-t">Example</p><p>Nadia applies for homeowners coverage. She tells her agent, Marcus, that she runs a small pottery kiln in her garage. Marcus leaves the kiln off the application. Six months later the garage burns. The insurer finds the kiln and tries to void the policy for concealment.</p><p class="ex-a"><strong>How it applies:</strong> Nadia told the insurer's agent. What the agent knows, the insurer knows, so nothing was concealed. The insurer must pay the claim. It can then hold Marcus responsible for his mistake.</p></div>
+<div class="keybox"><p><span class="kl">Exam trap</span>The test may say the policy is void because the application was wrong. If the applicant told the agent the truth, the agent's mistake belongs to the insurer, not the insured.</p></div>
+
+<h3>2.3 Producers: three types of authority</h3>
+<p>A producer can bind the insurer only within its <em class="term">authority</em>, its power to act for the insurer. The exam tests exactly three types.</p>
+<table class="tbl"><thead><tr><th>Authority</th><th>Where it comes from</th><th>Example</th></tr></thead><tbody>
+<tr><td><em class="term">Express</em></td><td>Stated in the agency contract, in writing or out loud</td><td>"You may bind property coverage up to $1 million"</td></tr>
+<tr><td><em class="term">Implied</em></td><td>Not stated, but needed to do the express job, or what agents normally do</td><td>Collecting the first premium, delivering the policy</td></tr>
+<tr><td><em class="term">Apparent</em></td><td>The <strong>insurer's own conduct</strong> makes the public reasonably believe the agent has authority</td><td>A fired agent still holding the insurer's binders and letterhead</td></tr>
+</tbody></table>
+<p>Two rules decide most questions:</p>
+<ul>
+<li><strong>Implied authority rides on express authority.</strong> It fills the gaps in the contract. With no express authority, there is no implied authority.</li>
+<li><strong>Only the insurer can create apparent authority.</strong> An agent can't give himself authority by bragging or by printing his own forms.</li>
+</ul>
+<div class="keybox"><p><span class="kl">Memory hook</span><strong>E</strong>xpress = exactly written. <strong>I</strong>mplied = inferred from the job. <strong>A</strong>pparent = how it appears to the public.</p></div>
+<div class="example"><p class="ex-t">Example</p><p>Victor's contract lets him bind property coverage up to $1 million. He binds a $750,000 shop. The contract says nothing about premiums, but he collects the first premium and delivers the policy, as agents always do.</p><p class="ex-a"><strong>How it applies:</strong> Binding the shop is express authority, because it is written and under the limit. Collecting the premium and delivering the policy are implied authority, because they are needed to carry out the job he was given.</p></div>
+<div class="keybox"><p><span class="kl">Exam trap</span>Answer choices like "fiduciary authority," "vicarious authority" or "binding authority" are made up. Being a fiduciary is a duty, not a type of authority. Pick express, implied or apparent.</p></div>
+
+<h3>2.3 Producers: when authority ends, and ratification</h3>
+<p>When the insurer ends the agency contract, <strong>express authority ends right away</strong>. Implied authority ends with it, because it depends on the express authority.</p>
+<p><strong>Apparent authority can live on.</strong> If the insurer lets the fired agent keep its forms, or never tells customers, the public still has reason to believe him. The insurer stays bound until it cleans that up.</p>
+<p>What if an agent acts <strong>outside</strong> his authority? Usually the insurer is not bound. There is one exception, called <em class="term">ratification</em>. If the insurer learns what the agent did and accepts it anyway, for example by keeping the premium or issuing the policy, it is bound as if the agent had authority from the start.</p>
+<div class="example"><p class="ex-t">Example</p><p>Victor's binding limit is $1 million. He binds a $1.4 million warehouse anyway. The insurer reviews it, keeps the premium and issues the policy. In June the insurer fires Victor but never collects its binders. In July he binds a restaurant for an owner who has no idea he was let go.</p><p class="ex-a"><strong>How it applies:</strong> The warehouse was outside Victor's authority, but the insurer ratified it by keeping the premium and issuing the policy, so it is bound. The restaurant binder uses apparent authority. The insurer left Victor holding its binders, so it is bound there too.</p></div>
+<div class="keybox"><p><span class="kl">Exam trap</span>The test may say firing an agent ends all of his authority. Express and implied authority end. Apparent authority lasts until the insurer takes back its forms and stops making him look authorized.</p></div>
+
+<h3>2.3 Producers: duties to the insurer and to clients</h3>
+<p>A producer owes duties in two directions.</p>
+<p><strong>To the insurer</strong>, the producer is a <em class="term">fiduciary</em>, a person trusted with someone else's money.</p>
+<ul>
+<li>Premiums are trust money. Keep them separate. Mixing them with personal or business funds is called <em class="term">commingling</em>, and it is never allowed, not even for a day.</li>
+<li>Send premiums to the insurer promptly, as the agency contract requires.</li>
+<li>Stay within your authority and report what you learn about a risk honestly.</li>
+</ul>
+<p><strong>To the applicant and insured</strong>, the producer owes reasonable care and skill.</p>
+<ul>
+<li>Explain coverage accurately, without stretching what it covers.</li>
+<li>Submit applications completely, correctly and promptly.</li>
+<li>Deliver the policy, and tell the client quickly if coverage can't be placed.</li>
+</ul>
+<p>A producer who fails a client faces <em class="term">errors-and-omissions (E&amp;O) liability</em>, meaning a lawsuit over a professional mistake. That is why producers carry their own E&amp;O insurance.</p>
+<div class="example"><p class="ex-t">Example</p><p>Producer Sam deposits $8,000 of client premiums into his agency's operating account to cover rent, planning to pay it back Friday. The same week, Brooke gives him a boat application and a $600 premium. He leaves it in a drawer for three weeks, and the boat sinks before any policy is issued.</p><p class="ex-a"><strong>How it applies:</strong> Using the premiums for rent is commingling, a breach of his fiduciary duty to the insurer, even if he repays it. Sitting on Brooke's application breaks his duty to submit it promptly. Brooke can bring an E&amp;O claim against Sam for what the policy would have paid.</p></div>
+<div class="keybox"><p><span class="kl">Exam trap</span>The test may say a producer may use premium money briefly if it is repaid. Any mixing of premiums with other funds is commingling. Also watch for "the producer owes duties only to the insurer." It also owes care and skill to its clients.</p></div>
 
 <h3>2.4 Contracts: the four elements</h3>
 <p>Every legal contract, including an insurance policy, needs four elements. Remember them as <strong>COLA</strong>.</p>
@@ -223,7 +249,13 @@ SECTIONS.push({
     {f:"All Agents Pick Up Commissions", b:"Adhesion, Aleatory, Personal, Unilateral, Conditional", r:""},
     {f:"Ambiguity in a contract of adhesion", b:"Read against the insurer, in the insured's favor", r:""},
     {f:"Representation vs warranty", b:"Representation: believed true, voids only if material. Warranty: guaranteed true and part of the contract.", r:""},
-    {f:"Waiver vs estoppel", b:"Waiver: giving up a known right. Estoppel: you can't reclaim it once the other party has relied on the waiver.", r:""}
+    {f:"Waiver vs estoppel", b:"Waiver: giving up a known right. Estoppel: you can't reclaim it once the other party has relied on the waiver.", r:""},
+    {f:"When the agency contract ends", b:"Express and implied authority end at once. Apparent authority can last until the insurer takes back its forms and stops making the agent look authorized.", r:""},
+    {f:"Ratification", b:"The insurer accepts an unauthorized act after the fact (keeps the premium, issues the policy) and is bound as if it had been authorized from the start.", r:""},
+    {f:"Commingling", b:"Mixing premium money with personal or business funds. Always a breach of the producer's fiduciary duty, even if repaid.", r:""},
+    {f:"A premium paid to the insurer's agent is...", b:"Paid to the insurer, even if the agent never forwards it", r:""},
+    {f:"Who can create apparent authority?", b:"Only the insurer (the principal), through its own conduct. Never the agent's own words.", r:""},
+    {f:"The three types of producer authority", b:"Express, implied, apparent. \"Fiduciary\" and \"vicarious\" authority are distractors.", r:""}
   ],
   quiz: [
     {q:"A warehouse has frayed electrical wiring. Months later a fire starts in that wiring and destroys the inventory. In risk terms, the frayed wiring is the:", c:["Peril","Hazard","Exposure","Loss"], a:1, w:"A hazard is a condition that raises the chance or severity of a loss, and that's the wiring. The fire is the peril (the cause of loss) and the destroyed inventory is the loss. Exposure is the property or unit that is open to loss, not the condition that makes a loss more likely.", o:"2.1", ut:false},
@@ -247,6 +279,14 @@ SECTIONS.push({
     {q:"Only the insurer makes a legally enforceable promise in an insurance policy. The insured can stop paying premiums without being sued for breach. This characteristic is called:", c:["Aleatory","Unilateral","Conditional","Adhesion"], a:1, w:"Unilateral means only one party makes an enforceable promise. Aleatory means the values exchanged are unequal. Conditional means the insurer pays only if the insured meets the policy conditions.", o:"2.4", ut:false},
     {q:"A policy term can reasonably be read two ways: one grants coverage and the other denies it. A court will most likely:", c:["Interpret it in the insured's favor, because the insurer drafted the contract of adhesion","Interpret it in the insurer's favor, because the insured accepted the policy","Void the entire policy","Apply whichever reading produces the smaller claim payment"], a:0, w:"In a contract of adhesion, ambiguities are read against the drafter, which is the insurer. A related doctrine is reasonable expectations: courts honor the coverage a reasonable insured would expect, even when the fine print says otherwise.", o:"2.4", ut:false},
     {q:"On an application, a business owner states that a sprinkler system 'will be maintained in working order at all times,' and the statement is written into the policy as a condition of coverage. This statement is a:", c:["Representation","Concealment","Waiver","Warranty"], a:3, w:"A statement guaranteed to be true and written into the contract is a warranty, and breaching it can void coverage. A representation is a statement the applicant believes is true, and it voids the policy only if it is both false and material.", o:"2.4", ut:false},
-    {q:"A policy requires proof of loss within 60 days. The adjuster tells the insured in writing that the insurer will accept it late, and the insured relies on that. The insurer later denies the claim as late. The insurer is most likely prevented from doing so by:", c:["Subrogation","Waiver and estoppel","Utmost good faith","Indemnity"], a:1, w:"The insurer voluntarily gave up (waived) its known right to the 60-day deadline. Because the insured relied on that waiver, estoppel now bars the insurer from reclaiming the right. Utmost good faith is the general duty of honesty. It's related, but waiver and estoppel is the specific doctrine.", o:"2.4", ut:false}
+    {q:"A policy requires proof of loss within 60 days. The adjuster tells the insured in writing that the insurer will accept it late, and the insured relies on that. The insurer later denies the claim as late. The insurer is most likely prevented from doing so by:", c:["Subrogation","Waiver and estoppel","Utmost good faith","Indemnity"], a:1, w:"The insurer voluntarily gave up (waived) its known right to the 60-day deadline. Because the insured relied on that waiver, estoppel now bars the insurer from reclaiming the right. Utmost good faith is the general duty of honesty. It's related, but waiver and estoppel is the specific doctrine.", o:"2.4", ut:false},
+    {q:"An insurer ends its agency contract with a producer on Monday. Which statement about the producer's authority on Tuesday is correct?", c:["All of his authority ended on Monday", "His express and implied authority ended, but apparent authority may remain if the insurer still makes him look authorized", "His implied authority continues for 30 days so he can finish open business", "His express authority continues until his license expires"], a:1, w:"Ending the contract ends express authority at once, and implied authority ends with it because it depends on express authority. Apparent authority comes from the insurer's conduct, so it can last until the insurer takes back its forms and lets the public know.", o:"2.3", ut:false},
+    {q:"A producer with a $500,000 binding limit binds a $700,000 risk. The insurer reviews the file, keeps the premium and issues the policy. A loss follows. The insurer is:", c:["Not bound, because the producer exceeded his express authority", "Bound only up to $500,000", "Bound, because it ratified the producer's act", "Bound only if the producer pays the difference"], a:2, w:"Ratification happens when the principal learns of an unauthorized act and accepts it anyway, here by keeping the premium and issuing the policy. The insurer is then bound as if the producer had authority from the start.", o:"2.3", ut:false},
+    {q:"Apparent authority is created by:", c:["The producer's own statements to customers", "The insurer's conduct that leads a reasonable person to believe the producer has authority", "The written terms of the agency contract", "The producer's license from the state"], a:1, w:"Only the principal can create apparent authority, through its own actions, such as leaving forms with a fired agent. The agent can't create it by what he says. Authority written in the contract is express authority.", o:"2.3", ut:false},
+    {q:"A customer pays her premium in cash to the insurer's authorized agent and gets a receipt. The agent never sends the money to the insurer, which later cancels the policy for nonpayment. What is the most likely result?", c:["The policy is in force, because payment to the agent is payment to the insurer", "The policy is canceled, because the insurer never received the premium", "The customer must pay the premium again to keep coverage", "The policy is void from the start"], a:0, w:"The agent acts for the insurer, so a premium paid to the agent counts as paid to the insurer. The customer kept her side of the deal. The insurer's remedy is against its own agent, who also broke his fiduciary duty.", o:"2.3", ut:false},
+    {q:"A producer deposits client premiums into the agency's operating account to cover payroll and repays the full amount two days later. This is:", c:["Allowed, because the money was repaid", "Allowed if the agency contract permits short-term use", "Commingling, a breach of the producer's fiduciary duty", "Rebating, because the client's money was used for the agency's benefit"], a:2, w:"Premiums are trust money. Mixing them with personal or business funds is commingling, and repaying it later does not cure the breach. Rebating is giving a client something of value to buy a policy, which is a different violation.", o:"2.3", ut:false},
+    {q:"Which of the following is NOT one of the types of producer authority?", c:["Express", "Implied", "Apparent", "Fiduciary"], a:3, w:"The three types of authority are express, implied and apparent. Being a fiduciary is a duty the producer owes when handling premiums, not a source of authority.", o:"2.3", ut:false},
+    {q:"An applicant gives a producer a completed application and premium. The producer forgets to send them in, no policy is issued, and the applicant has an uninsured loss. The applicant's best remedy is:", c:["A claim against the insurer for the full loss", "An errors-and-omissions claim against the producer", "A complaint asking the commissioner to pay the loss", "None, because no policy was ever issued"], a:1, w:"The producer owed the applicant reasonable care, including submitting the application promptly. Failing to do so is a professional mistake, so the applicant sues the producer for errors and omissions, the coverage that producers carry for exactly this.", o:"2.3", ut:false},
+    {q:"In insurance, the principal in an agency relationship is the:", c:["Applicant", "Producer", "Insurer", "Insurance commissioner"], a:2, w:"The producer is the agent and acts on behalf of the insurer, which is the principal. That is why the insurer is bound by what its producer knows and does within his authority.", o:"2.3", ut:false}
   ]
 });
